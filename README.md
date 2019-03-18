@@ -30,8 +30,26 @@ curl -i -X POST \
       }
   }
 ```
+##Docker
+[DockerHub](https://hub.docker.com/r/kubasienki/xmlanalyzer)
+
+To build docker image execute (after building project by maven):
+```
+docker build . -t xmlanalyzer
+```
+To run docker image:
+```
+docker run -p 8080:8080 xmlanalyzer
+
+```
+To run from hub:
+```
+docker run -p 8080:8080 kubasienki/xmlanalyzer
+```
+
 ### Assertions and decisions made
 ##### _(in regard to recruitment process for which this code was created)_
 
 * As observed on [Stack Exchange Data Dump](https://archive.org/details/stackexchange) <row> elements in xmls have chronological order.
 * Default spring boot exception handling was used - this could be changed in future if there would be any need, but for now it's enough.
+* Docker image java was outdated - chose openjdk instead
