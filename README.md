@@ -30,7 +30,7 @@ curl -i -X POST \
       }
   }
 ```
-### Assertions an decisions made
+### Assertions and decisions made
 ##### _(in regard to recruitment process for which this code was created)_
 
 * As observed on [Stack Exchange Data Dump](https://archive.org/details/stackexchange) <row> elements in xmls have chronological order.
