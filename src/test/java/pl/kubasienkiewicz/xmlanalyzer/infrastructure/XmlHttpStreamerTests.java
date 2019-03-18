@@ -8,15 +8,16 @@ import pl.kubasienkiewicz.xmlanalyzer.domain.exceptions.MalformedURLRuntimeExcep
  */
 public class XmlHttpStreamerTests {
 
-    private XmlHttpStreamer xmlHttpStreamer = new XmlHttpStreamer();
+    private XmlHttpInputStream xmlHttpStreamer = new XmlHttpInputStream();
 
     @Test(expected = MalformedURLRuntimeException.class)
     public void testUrlWithoutProtocol(){
-        xmlHttpStreamer.getXmlStreamReader("s3-eu-west-1.amazonaws.com/merapar-assessment/3dprinting-posts.xml");
+        xmlHttpStreamer.getXmlInputStream("s3-eu-west-1.amazonaws.com/merapar-assessment/3dprinting-posts.xml");
     }
 
     @Test(expected = MalformedURLRuntimeException.class)
     public void testUrlWithWrongProtocol(){
-        xmlHttpStreamer.getXmlStreamReader("hts://s3-eu-west-1.amazonaws.com/merapar-assessment/3dprinting-posts.xml");
+        xmlHttpStreamer.getXmlInputStream("hts://s3-eu-west-1.amazonaws.com/merapar-assessment/3dprinting-posts.xml");
     }
+
 }

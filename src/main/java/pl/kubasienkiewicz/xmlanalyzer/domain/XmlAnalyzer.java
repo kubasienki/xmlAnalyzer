@@ -1,10 +1,14 @@
 package pl.kubasienkiewicz.xmlanalyzer.domain;
 
 import org.springframework.stereotype.Component;
+import pl.kubasienkiewicz.xmlanalyzer.domain.exceptions.IoRuntimeException;
 import pl.kubasienkiewicz.xmlanalyzer.domain.exceptions.XmlStreamRuntimeException;
 
+import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 
 /**
@@ -14,13 +18,14 @@ import java.time.LocalDateTime;
 @Component
 class XmlAnalyzer {
 
-    private XmlStreamerPort xmlStreamer;
+    private XmlInputStreamPort xmlInputStreamPort;
 
-    XmlAnalyzer(XmlStreamerPort xmlStreamer) {
-        this.xmlStreamer = xmlStreamer;
+    XmlAnalyzer(XmlInputStreamPort xmlInputStreamPort) {
+        this.xmlInputStreamPort = xmlInputStreamPort;
     }
 
     XmlAnalyzeResult analyzeXml(String url) {
+
         XmlAnalyzeResult.Builder builder = new XmlAnalyzeResult.Builder();
         XmlAnalyzeResultDetails.Builder detailsBuilder = new XmlAnalyzeResultDetails.Builder();
         int totalPosts = 0;
@@ -28,7 +33,8 @@ class XmlAnalyzer {
         boolean firstRow = true;
         double scoreSum = 0;
         LocalDateTime lastPost = null;
-        XMLStreamReader streamReader = xmlStreamer.getXmlStreamReader(url);
+        InputStream inputStream = xmlInputStreamPort.getXmlInputStream(url);
+        XMLStreamReader streamReader = initXMLStreamReader(inputStream);
         try {
             while (streamReader.hasNext()) {
                 int eventType = streamReader.next();
@@ -63,12 +69,7 @@ class XmlAnalyzer {
         } catch (XMLStreamException ex) {
             throw new XmlStreamRuntimeException(ex.getMessage());
         } finally {
-            try {
-                //TODo zamknąć resource
-                streamReader.close();
-            } catch (XMLStreamException ex) {
-                throw new XmlStreamRuntimeException(ex.getMessage());
-            }
+            closeXmlStreamReaderAndResource(streamReader, inputStream);
         }
         builder.details(detailsBuilder
                 .lastPost(lastPost)
@@ -77,6 +78,29 @@ class XmlAnalyzer {
                 .avgScore(scoreSum / totalPosts)
                 .build());
         return builder.build();
+    }
+
+    private XMLStreamReader initXMLStreamReader(InputStream inputStream) {
+        XMLInputFactory inputFactory = XMLInputFactory.newInstance();
+        try {
+            return inputFactory.createXMLStreamReader(inputStream);
+        } catch (XMLStreamException ex) {
+            throw new XmlStreamRuntimeException(ex.getMessage());
+        }
+    }
+
+    private void closeXmlStreamReaderAndResource(XMLStreamReader reader, InputStream resource) {
+        try {
+            reader.close();
+        } catch (XMLStreamException ex) {
+            throw new XmlStreamRuntimeException(ex.getMessage());
+        } finally {
+            try {
+                resource.close();
+            } catch (IOException ex) {
+                throw new IoRuntimeException(ex.getMessage());
+            }
+        }
     }
 
 }

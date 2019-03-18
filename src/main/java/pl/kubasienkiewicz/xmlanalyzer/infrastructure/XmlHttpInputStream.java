@@ -1,15 +1,12 @@
 package pl.kubasienkiewicz.xmlanalyzer.infrastructure;
 
 import org.springframework.stereotype.Component;
-import pl.kubasienkiewicz.xmlanalyzer.domain.XmlStreamerPort;
+import pl.kubasienkiewicz.xmlanalyzer.domain.XmlInputStreamPort;
 import pl.kubasienkiewicz.xmlanalyzer.domain.exceptions.IoRuntimeException;
 import pl.kubasienkiewicz.xmlanalyzer.domain.exceptions.MalformedURLRuntimeException;
-import pl.kubasienkiewicz.xmlanalyzer.domain.exceptions.XmlStreamRuntimeException;
 
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -17,25 +14,21 @@ import java.net.URL;
  * Created by Jakub Sienkiewicz on 15.03.2019.
  */
 @Component
-class XmlHttpStreamer implements XmlStreamerPort {
+class XmlHttpInputStream implements XmlInputStreamPort {
 
     @Override
-    public XMLStreamReader getXmlStreamReader(String requestUrl) {
-        XMLInputFactory inputFactory = XMLInputFactory.newInstance();
+    public InputStream getXmlInputStream(String requestUrl) {
         URL url = null;
         try {
             url = new URL(requestUrl);
         } catch (MalformedURLException ex) {
             throw new MalformedURLRuntimeException(ex.getMessage());
         }
-        XMLStreamReader streamReader = null;
         try {
-            streamReader = inputFactory.createXMLStreamReader(url.openStream());
+            return url.openStream();
         } catch (IOException ex) {
             throw new IoRuntimeException(ex.getMessage());
-        } catch (XMLStreamException ex) {
-            throw new XmlStreamRuntimeException(ex.getMessage());
         }
-        return streamReader;
+
     }
 }
