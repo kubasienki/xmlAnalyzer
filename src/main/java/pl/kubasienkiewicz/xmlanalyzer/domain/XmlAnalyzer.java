@@ -9,6 +9,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.Clock;
 import java.time.LocalDateTime;
 
 /**
@@ -19,9 +20,11 @@ import java.time.LocalDateTime;
 class XmlAnalyzer {
 
     private XmlInputStreamPort xmlInputStreamPort;
+    private Clock clock;
 
-    XmlAnalyzer(XmlInputStreamPort xmlInputStreamPort) {
+    XmlAnalyzer(XmlInputStreamPort xmlInputStreamPort, Clock clock) {
         this.xmlInputStreamPort = xmlInputStreamPort;
+        this.clock = clock;
     }
 
     XmlAnalyzeResult analyzeXml(String url) {
@@ -76,7 +79,8 @@ class XmlAnalyzer {
                 .totalAcceptedPosts(acceptedPosts)
                 .totalPosts(totalPosts)
                 .avgScore(scoreSum / totalPosts)
-                .build());
+                .build())
+                .analyseDate(LocalDateTime.now(clock));
         return builder.build();
     }
 
