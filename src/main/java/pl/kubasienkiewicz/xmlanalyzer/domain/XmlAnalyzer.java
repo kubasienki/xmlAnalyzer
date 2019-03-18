@@ -45,7 +45,7 @@ class XmlAnalyzer {
                     case XMLStreamReader.START_ELEMENT:
                         String elementName = streamReader.getLocalName();
                         if (elementName.equals("row")) {
-                            //ToDo We should extract a method from here - just need to think how
+                            //ToDo Not very clean - need to rework
                             String creationDate = streamReader.getAttributeValue(null, "CreationDate");
                             String id = streamReader.getAttributeValue(null, "Id");
                             String score = streamReader.getAttributeValue(null, "Score");
