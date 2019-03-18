@@ -1,4 +1,4 @@
-package pl.kubasienkiewicz.xmlanalyzer.api.XmlAnalyze.rest;
+package pl.kubasienkiewicz.xmlanalyzer.api.xmlanalyze.rest;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;

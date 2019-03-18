@@ -22,11 +22,28 @@ public class XmlAnalyzeResult {
         return details;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof XmlAnalyzeResult)) return false;
+
+        XmlAnalyzeResult that = (XmlAnalyzeResult) o;
+
+        return (analyseDate != null ? analyseDate.equals(that.analyseDate) : that.analyseDate == null) && (details != null ? details.equals(that.details) : that.details == null);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = analyseDate != null ? analyseDate.hashCode() : 0;
+        result = 31 * result + (details != null ? details.hashCode() : 0);
+        return result;
+    }
+
     public static final class Builder {
         private LocalDateTime analyseDate;
         private XmlAnalyzeResultDetails details;
 
-        Builder() {
+        public Builder() {
             this.analyseDate = LocalDateTime.now();
         }
 
@@ -35,12 +52,12 @@ public class XmlAnalyzeResult {
             return this;
         }
 
-        Builder details(XmlAnalyzeResultDetails details) {
+        public Builder details(XmlAnalyzeResultDetails details) {
             this.details = details;
             return this;
         }
 
-        XmlAnalyzeResult build() {
+        public XmlAnalyzeResult build() {
             XmlAnalyzeResult xmlAnalyzeResult = new XmlAnalyzeResult();
             xmlAnalyzeResult.analyseDate = this.analyseDate;
             xmlAnalyzeResult.details = this.details;

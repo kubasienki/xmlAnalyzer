@@ -1,4 +1,4 @@
-package pl.kubasienkiewicz.xmlanalyzer.api.XmlAnalyze.rest;
+package pl.kubasienkiewicz.xmlanalyzer.api.xmlanalyze.rest;
 
 import java.time.LocalDateTime;
 
@@ -20,6 +20,23 @@ class XmlAnalyzeResponse {
 
     public XmlAnalyzeResponseDetails getDetails() {
         return details;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof XmlAnalyzeResponse)) return false;
+
+        XmlAnalyzeResponse that = (XmlAnalyzeResponse) o;
+
+        return (analyseDate != null ? analyseDate.equals(that.analyseDate) : that.analyseDate == null) && (details != null ? details.equals(that.details) : that.details == null);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = analyseDate != null ? analyseDate.hashCode() : 0;
+        result = 31 * result + (details != null ? details.hashCode() : 0);
+        return result;
     }
 
     static final class Builder {

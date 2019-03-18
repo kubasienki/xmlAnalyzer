@@ -1,4 +1,4 @@
-package pl.kubasienkiewicz.xmlanalyzer.api.XmlAnalyze.rest;
+package pl.kubasienkiewicz.xmlanalyzer.api.xmlanalyze.rest;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

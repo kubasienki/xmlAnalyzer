@@ -37,42 +37,68 @@ public class XmlAnalyzeResultDetails {
         return avgScore;
     }
 
-    static final class Builder {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof XmlAnalyzeResultDetails)) return false;
+
+        XmlAnalyzeResultDetails that = (XmlAnalyzeResultDetails) o;
+
+        if (totalPosts != that.totalPosts) return false;
+        if (totalAcceptedPosts != that.totalAcceptedPosts) return false;
+        if (Double.compare(that.avgScore, avgScore) != 0) return false;
+        return (firstPost != null ? firstPost.equals(that.firstPost) : that.firstPost == null) && (lastPost != null ? lastPost.equals(that.lastPost) : that.lastPost == null);
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = firstPost != null ? firstPost.hashCode() : 0;
+        result = 31 * result + (lastPost != null ? lastPost.hashCode() : 0);
+        result = 31 * result + totalPosts;
+        result = 31 * result + totalAcceptedPosts;
+        temp = Double.doubleToLongBits(avgScore);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
+
+    public static final class Builder {
         private LocalDateTime firstPost;
         private LocalDateTime lastPost;
         private int totalPosts;
         private int totalAcceptedPosts;
         private double avgScore;
 
-        Builder() {
+        public Builder() {
         }
 
-        Builder firstPost(LocalDateTime firstPost) {
+        public Builder firstPost(LocalDateTime firstPost) {
             this.firstPost = firstPost;
             return this;
         }
 
-        Builder lastPost(LocalDateTime lastPost) {
+        public Builder lastPost(LocalDateTime lastPost) {
             this.lastPost = lastPost;
             return this;
         }
 
-        Builder totalPosts(int totalPosts) {
+        public Builder totalPosts(int totalPosts) {
             this.totalPosts = totalPosts;
             return this;
         }
 
-        Builder totalAcceptedPosts(int totalAcceptedPosts) {
+        public Builder totalAcceptedPosts(int totalAcceptedPosts) {
             this.totalAcceptedPosts = totalAcceptedPosts;
             return this;
         }
 
-        Builder avgScore(double avgScore) {
+        public Builder avgScore(double avgScore) {
             this.avgScore = avgScore;
             return this;
         }
 
-        XmlAnalyzeResultDetails build() {
+        public XmlAnalyzeResultDetails build() {
             XmlAnalyzeResultDetails xmlAnalyzeResultDetails = new XmlAnalyzeResultDetails();
             xmlAnalyzeResultDetails.lastPost = this.lastPost;
             xmlAnalyzeResultDetails.firstPost = this.firstPost;

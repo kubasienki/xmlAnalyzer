@@ -1,4 +1,4 @@
-package pl.kubasienkiewicz.xmlanalyzer.api.XmlAnalyze.rest;
+package pl.kubasienkiewicz.xmlanalyzer.api.xmlanalyze.rest;
 
 import org.springframework.stereotype.Component;
 import pl.kubasienkiewicz.xmlanalyzer.domain.XmlAnalyzeResult;

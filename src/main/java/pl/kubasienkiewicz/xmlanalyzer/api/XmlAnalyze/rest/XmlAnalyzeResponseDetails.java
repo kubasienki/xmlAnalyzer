@@ -1,4 +1,4 @@
-package pl.kubasienkiewicz.xmlanalyzer.api.XmlAnalyze.rest;
+package pl.kubasienkiewicz.xmlanalyzer.api.xmlanalyze.rest;
 
 import java.time.LocalDateTime;
 
@@ -37,6 +37,31 @@ class XmlAnalyzeResponseDetails {
         return avgScore;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof XmlAnalyzeResponseDetails)) return false;
+
+        XmlAnalyzeResponseDetails that = (XmlAnalyzeResponseDetails) o;
+
+        if (totalPosts != that.totalPosts) return false;
+        if (totalAcceptedPosts != that.totalAcceptedPosts) return false;
+        if (Double.compare(that.avgScore, avgScore) != 0) return false;
+        return (firstPost != null ? firstPost.equals(that.firstPost) : that.firstPost == null) && (lastPost != null ? lastPost.equals(that.lastPost) : that.lastPost == null);
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = firstPost != null ? firstPost.hashCode() : 0;
+        result = 31 * result + (lastPost != null ? lastPost.hashCode() : 0);
+        result = 31 * result + totalPosts;
+        result = 31 * result + totalAcceptedPosts;
+        temp = Double.doubleToLongBits(avgScore);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
 
     static final class Builder {
         private LocalDateTime firstPost;
