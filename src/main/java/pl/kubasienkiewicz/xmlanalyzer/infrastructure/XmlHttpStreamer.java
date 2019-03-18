@@ -1,4 +1,4 @@
-package pl.kubasienkiewicz.xmlanalyzer.infrastucture;
+package pl.kubasienkiewicz.xmlanalyzer.infrastructure;
 
 import org.springframework.stereotype.Component;
 import pl.kubasienkiewicz.xmlanalyzer.domain.XmlStreamerPort;
